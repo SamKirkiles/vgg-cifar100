@@ -24,5 +24,6 @@ class Loader():
 	def get_train_batch(self,normalized=False):
 
 		while True:
+			# Creates a generator with a random mini batch
 			sample = random.sample(list(np.arange(self.train_x.shape[0])),self.batch_size)			
 			yield self.train_x[sample], self.train_y[sample]
