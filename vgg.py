@@ -103,7 +103,7 @@ class VGG:
 
 				run_id = np.random.randint(0,1e7)
 
-				train_writer = tf.summary.FileWriter(logdir="./logs/" + run_id + "/train", graph=sess.graph)
+				train_writer = tf.summary.FileWriter(logdir="./logs/" + str(run_id) + "/train", graph=sess.graph)
 
 				if restore:
 					saver.restore(sess, tf.train.latest_checkpoint('./saves'))
