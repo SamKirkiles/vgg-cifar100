@@ -10,7 +10,7 @@ class VGG:
 			with tf.device("/gpu:0"):
 
 				x = tf.placeholder(dtype=tf.float32,shape=(None,32,32,3),name="inputs")
-				y = tf.placeholder(dtype=tf.int32,shape=(None,),name="labels")
+				y = tf.placeholder(dtype=tf.int32,shape=(None),name="labels")
 
 				#Layer1 - 64 channels
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
@@ -104,10 +104,10 @@ class VGG:
 				else:
 					sess.run(tf.global_variables_initializer())
 
-			while True:
-					x,y = generator.__next__()
-					loss, _ = sess.run([self.loss,self.optimize],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
-					print(loss)
+				while True:
+						x,y = generator.__next__()
+						loss, _ = sess.run([self.loss,self.optimize],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
+						print(loss)
 
 		except KeyboardInterrupt:
 			print("Interupted... saving model.")
