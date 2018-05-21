@@ -79,6 +79,7 @@ class VGG:
 				softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
 				loss = tf.reduce_mean(softmax)
+				tf.summary.scalar('Loss',loss)
 
 				optimize = tf.train.AdamOptimizer().minimize(loss)
 
@@ -99,15 +100,26 @@ class VGG:
 		try:
 
 			with tf.Session() as sess:
+
+				run_id = np.random.randint(0,1e7)
+
+				train_writer = tf.summary.FileWriter(logdir="./logs/" + run_id + "/train", ses.graph)
+
 				if restore:
 					saver.restore(sess, tf.train.latest_checkpoint('./saves'))
 				else:
 					sess.run(tf.global_variables_initializer())
 
+				counter = 0
+
 				while True:
+
+						counter += 1
+						merge = tf.summary.merge_all()
+
 						x,y = generator.__next__()
-						loss, _ = sess.run([self.loss,self.optimize],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
-						print(loss)
+						loss, _, summary = sess.run([self.loss,self.optimize,merge],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
+						train_writer.add_summary(summary,counter)
 
 		except KeyboardInterrupt:
 			print("Interupted... saving model.")
