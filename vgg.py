@@ -79,9 +79,11 @@ class VGG:
 				softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
 				loss = tf.reduce_mean(softmax)
-				tf.summary.scalar('Loss',loss)
 
 				optimize = tf.train.AdamOptimizer().minimize(loss)
+
+			with tf.device("/cpu:0"):
+				tf.summary.scalar("Loss", loss)
 
 			self.x_placeholder = x
 			self.y_placeholder = y
@@ -119,6 +121,7 @@ class VGG:
 
 						x,y = generator.__next__()
 						loss, _, summary = sess.run([self.loss,self.optimize,merge],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
+
 						train_writer.add_summary(summary,counter)
 
 		except KeyboardInterrupt:
