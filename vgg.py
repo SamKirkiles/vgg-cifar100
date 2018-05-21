@@ -106,7 +106,7 @@ class VGG:
 
 			while True:
 					x,y = generator.__next__()
-					loss, _ = sess.run([self.loss,self.optimize],feed_dict={self.x_placeholder:x,self.y_placeholder:labels})
+					loss, _ = sess.run([self.loss,self.optimize],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
 					print(loss)
 
 		except KeyboardInterrupt:
