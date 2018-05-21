@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def main():
 	print("running main")
 
-	model = VGG()
+	vgg = VGG()
 
 	# Load CIFAR-100 dataset
 	loader = Loader()
