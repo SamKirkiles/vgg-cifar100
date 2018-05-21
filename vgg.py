@@ -16,7 +16,7 @@ class VGG:
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				# Layer2 - 64 channels
-				conv2 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv2 = tf.layers.conv2d(conv1, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				pool2 = tf.layers.max_pooling2d(conv2, (2,2), (2,2), padding='SAME')
 
