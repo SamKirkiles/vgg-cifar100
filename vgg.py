@@ -82,8 +82,6 @@ class VGG:
 
 				optimize = tf.train.AdamOptimizer().minimize(loss)
 
-			with tf.device("/cpu:0"):
-				tf.summary.scalar("Loss", loss)
 
 			self.x_placeholder = x
 			self.y_placeholder = y
@@ -91,6 +89,9 @@ class VGG:
 			self.output_distribution = output_distribution
 			self.softmax = softmax
 			self.optimize = optimize
+
+			with tf.device("/cpu:0"):
+				tf.summary.scalar("Loss", loss)
 
 		build_model()
 
