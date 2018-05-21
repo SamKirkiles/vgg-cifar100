@@ -51,7 +51,6 @@ class VGG:
 
 			pool10 = tf.layers.max_pooling2d(conv10, (2,2), (2,2), padding='SAME')
 
-
 			# Layer 11 - 512 channels
 			conv11 = tf.layers.conv2d(pool10, filters=512,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
 				use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
@@ -75,7 +74,7 @@ class VGG:
 			scaled_logits = -tf.log(dense16)
 			output_distribution = tf.nn.softmax(scaled_logits)
 
-			softmax = tf.nn.softmax_cross_entropy_with_logits_v2(labels=y,logits=dense16,name="softmax")
+			softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
 			loss = tf.reduce_mean(softmax)
 
@@ -91,7 +90,7 @@ class VGG:
 		build_model()
 
 
-	def train(self, inputs, labels,restore):
+	def train(self, generator,restore):
 
 		saver = tf.train.Saver()
 
@@ -104,7 +103,10 @@ class VGG:
 					sess.run(tf.global_variables_initializer())
 
 			while True:
-					loss, _ = sess.run([self.loss,self.optimize],feed_dict={self.x_placeholder:inputs,self.y_placeholder:labels})
+					x,y = generator.__next__()
+					loss, _ = sess.run([self.loss,self.optimize],feed_dict={self.x_placeholder:x,self.y_placeholder:labels})
+					print(loss)
+
 		except KeyboardInterrupt:
 			print("Interupted... saving model.")
 		

@@ -8,6 +8,11 @@ class Loader():
 
 		(train_x,train_y), (test_x,test_y) = tf.keras.datasets.cifar100.load_data(label_mode='fine')
 
+
+		# Normalize data
+		train_x = (train_x - np.mean(train_x))/((np.max(train_x) - np.min(train_x)))
+		test_x = (test_x - np.mean(test_x))/((np.max(test_x) - np.min(test_x)))
+
 		self.batch_size = batch_size
 
 		self.train_x = train_x
@@ -16,7 +21,8 @@ class Loader():
 		self.test_y = test_y
 
 
-	def get_batch(self):
+	def get_train_batch(self,normalized=False):
+
 		while True:
-			sample = random.sample(list(np.arange(self.train_x.shape[0])),self.batch_size)
+			sample = random.sample(list(np.arange(self.train_x.shape[0])),self.batch_size)			
 			yield self.train_x[sample], self.train_y[sample]
