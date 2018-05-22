@@ -70,7 +70,7 @@ class VGG:
 
 				dense14 = tf.layers.dense(inputs=flattened, units=4096,activation=tf.nn.relu,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				dense15 = tf.layers.dense(inputs=dense14, units=4096,activation=tf.nn.relu,kernel_initializer=tf.contrib.layers.xavier_initializer())
-				dense16 = tf.layers.dense(inputs=dense15, units=100,activation=tf.nn.relu,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				dense16 = tf.layers.dense(inputs=dense15, units=100,activation=None,kernel_initializer=tf.contrib.layers.xavier_initializer())
 
 
 				scaled_logits = -tf.log(dense16)
@@ -121,7 +121,7 @@ class VGG:
 						merge = tf.summary.merge_all()
 
 						x,y = generator.__next__()
-						loss, _, summary = sess.run([self.loss,self.optimize,merge],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
+						_, summary = sess.run([self.optimize,merge],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
 
 						train_writer.add_summary(summary,counter)
 
