@@ -100,9 +100,9 @@ class VGG:
 
 		saver = tf.train.Saver()
 
-		try:
 
-			with tf.Session() as sess:
+		with tf.Session() as sess:
+			try:
 
 				run_id = np.random.randint(0,1e7)
 
@@ -125,10 +125,10 @@ class VGG:
 
 						train_writer.add_summary(summary,counter)
 
-		except KeyboardInterrupt:
-			print("Interupted... saving model.")
-		
-		save_path = saver.save(sess, "./saves/model.ckpt")
+			except KeyboardInterrupt:
+				print("Interupted... saving model.")
+			
+			save_path = saver.save(sess, "./saves/model.ckpt")
 
 
 	def test(self,inputs,labels,restore):
