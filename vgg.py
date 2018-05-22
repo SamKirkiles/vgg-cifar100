@@ -6,14 +6,14 @@ class VGG:
 	def __init__(self):
 
 		loader = Loader()
+		iterator = loader.get_dataset()
 
 
 		def build_model():
 
 			with tf.device("/cpu:0"):
 
-				x = tf.placeholder(dtype=tf.float32,shape=(None,32,32,3),name="inputs")
-				y = tf.placeholder(dtype=tf.int32,shape=(None),name="labels")
+				x,y = iterator.get_next()
 
 				#Layer1 - 64 channels
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
@@ -86,8 +86,6 @@ class VGG:
 				optimize = tf.train.AdamOptimizer().minimize(loss)
 
 
-			self.x_placeholder = x
-			self.y_placeholder = y
 			self.loss = loss
 			self.output_distribution = output_distribution
 			self.softmax = softmax
@@ -124,7 +122,7 @@ class VGG:
 						merge = tf.summary.merge_all()
 
 						x,y = generator.__next__()
-						_, summary = sess.run([self.optimize,merge],feed_dict={self.x_placeholder:x,self.y_placeholder:y})
+						_, summary = sess.run([self.optimize,merge],feed_dict={})
 
 						train_writer.add_summary(summary,counter)
 
