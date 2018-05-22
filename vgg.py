@@ -12,10 +12,10 @@ class VGG:
 
 
 		def build_model():
+			x,y = iterator.get_next()
 
 			with tf.device("/gpu:0"):
 
-				x,y = iterator.get_next()
 
 				#Layer1 - 64 channels
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
