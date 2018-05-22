@@ -14,7 +14,7 @@ def main():
 	iterator = loader.get_dataset()
 
 	print("stuck here")
-	batch = (iterator.get_next()
+	batch = (iterator.get_next())
 
 	with tf.Session() as sess:
 		x,y = sess.run(batch) 
