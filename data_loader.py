@@ -22,7 +22,8 @@ class Loader():
 
 	def get_dataset(self):
 
-		dataset =  tf.data.Dataset.from_tensor_slices((self.train_x,np.ravel(self.train_y))).prefetch(buffer_size=1000).batch(64).repeat()
+		tf.data.FixedLengthRecordDataset()
+		dataset =  tf.data.Dataset.from_tensor_slices((self.train_x[0:2000],np.ravel(self.train_y[0:2000]))).prefetch(buffer_size=64*2).batch(64).repeat()
 		iterator = dataset.make_one_shot_iterator()
 
 		return iterator
