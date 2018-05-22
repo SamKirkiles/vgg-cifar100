@@ -1,5 +1,7 @@
 import tensorflow as tf
 import numpy as np
+from data_loader import Loader
+
 
 class VGG:
  
