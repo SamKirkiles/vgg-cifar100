@@ -12,10 +12,9 @@ class VGG:
 
 
 		def build_model():
-			x,y = iterator.get_next()
 
 			with tf.device("/device:GPU:0"):
-
+				x,y = iterator.get_next()
 
 				#Layer1 - 64 channels
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
@@ -104,7 +103,7 @@ class VGG:
 		saver = tf.train.Saver()
 
 
-		with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
+		with tf.Session(config=tf.ConfigProto(allow_soft_placement=False)) as sess:
 			try:
 
 				run_id = np.random.randint(0,1e7)
