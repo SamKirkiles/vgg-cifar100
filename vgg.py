@@ -102,7 +102,7 @@ class VGG:
 
 		try:
 
-			with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
+			with tf.Session() as sess:
 
 				run_id = np.random.randint(0,1e7)
 
