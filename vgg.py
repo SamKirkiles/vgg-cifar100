@@ -13,7 +13,7 @@ class VGG:
 
 		def build_model():
 
-			with tf.device("/cpu:0"):
+			with tf.device("/gpu:0"):
 
 				x,y = iterator.get_next()
 
