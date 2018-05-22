@@ -22,7 +22,7 @@ class Loader():
 
 	def get_dataset(self):
 
-		dataset =  tf.data.Dataset.from_tensor_slices((self.train_x,self.train_y)).batch(64).repeat()
+		dataset =  tf.data.Dataset.from_tensor_slices((self.train_x,self.train_y))shuffle(buffer_size=1000).batch(64).repeat()
 		iterator = dataset.make_one_shot_iterator()
 
 		return iterator
