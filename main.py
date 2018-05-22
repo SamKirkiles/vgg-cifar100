@@ -14,7 +14,13 @@ def main():
 	iterator = loader.get_dataset()
 
 	print("stuck here")
-	print(iterator.get_next())
+	batch = (iterator.get_next()
+
+	with tf.Session() as sess:
+		x,y = sess.run(batch) 
+		print(x.shape)
+		print(y.shape)
+
 	
 	#vgg.train(generator,False)
 
