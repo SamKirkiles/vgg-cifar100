@@ -103,7 +103,7 @@ class VGG:
 		saver = tf.train.Saver()
 
 
-		with tf.Session(config=tf.ConfigProto(allow_soft_placement=False)) as sess:
+		with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
 			try:
 
 				run_id = np.random.randint(0,1e7)
@@ -126,6 +126,10 @@ class VGG:
 
 						train_writer.add_summary(summary,counter)
 
+						if counter%1000 == 0:
+							print("Periodically saving model...")
+							save_path = saver.save(sess, "./saves/model.ckpt")
+							
 			except KeyboardInterrupt:
 				print("Interupted... saving model.")
 			
