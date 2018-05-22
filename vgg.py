@@ -14,7 +14,7 @@ class VGG:
 		def build_model():
 			x,y = iterator.get_next()
 
-			with tf.device("/gpu:0"):
+			with tf.device("/device:GPU:0"):
 
 
 				#Layer1 - 64 channels
@@ -79,7 +79,7 @@ class VGG:
 
 
 				scaled_logits = -tf.log(dense16)
-				output_distribution = None
+				output_distribution = tf.nn.softmax(scaled_logits)
 
 				softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
@@ -104,7 +104,7 @@ class VGG:
 		saver = tf.train.Saver()
 
 
-		with tf.Session() as sess:
+		with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
 			try:
 
 				run_id = np.random.randint(0,1e7)
