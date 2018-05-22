@@ -99,7 +99,7 @@ class VGG:
 		build_model()
 
 
-	def train(self, generator,restore):
+	def train(self,restore):
 
 		saver = tf.train.Saver()
 
@@ -123,7 +123,6 @@ class VGG:
 						counter += 1
 						merge = tf.summary.merge_all()
 
-						x,y = generator.__next__()
 						_, summary = sess.run([self.optimize,merge],feed_dict={})
 
 						train_writer.add_summary(summary,counter)
