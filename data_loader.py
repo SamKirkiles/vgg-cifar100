@@ -4,7 +4,7 @@ import random
 
 class Loader():
 
-	def __init__(self,batch_size=32):
+	def __init__(self,batch_size=64):
 
 		(train_x,train_y), (test_x,test_y) = tf.keras.datasets.cifar100.load_data(label_mode='fine')
 
@@ -25,5 +25,6 @@ class Loader():
 
 		while True:
 			# Creates a generator with a random mini batch
-			sample = random.sample(list(np.arange(self.train_x.shape[0])),self.batch_size)			
+			#sample = random.sample(list(np.arange(self.train_x.shape[0])),self.batch_size)			
+			sample = list(np.arange(self.batch_size))
 			yield self.train_x[sample], np.ravel(self.train_y[sample])
