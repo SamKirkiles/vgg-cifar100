@@ -79,7 +79,7 @@ class VGG:
 
 
 				scaled_logits = -tf.log(dense16)
-				output_distribution = tf.nn.softmax(scaled_logits)
+				output_distribution = None
 
 				softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
