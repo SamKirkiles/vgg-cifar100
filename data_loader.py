@@ -20,6 +20,13 @@ class Loader():
 		self.test_x = test_x
 		self.test_y = test_y
 
+	def get_dataset(self):
+
+		dataset =  tf.data.Dataset.from_tensor_slices((self.train_x,self.train_y)).repeat().batch(64)
+		iterator = dataset.make_one_shot_iterator()
+
+		return iterator
+
 
 	def get_train_batch(self,normalized=False):
 

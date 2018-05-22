@@ -6,14 +6,17 @@ import matplotlib.pyplot as plt
 def main():
 	print("running main")
 
-	vgg = VGG()
+	#vgg = VGG()
 
 	# Load CIFAR-100 dataset
 	loader = Loader()
 
-	generator = loader.get_train_batch()
+	iterator = loader.get_dataset()
+
+	print("stuck here")
+	print(iterator.get_next())
 	
-	vgg.train(generator,False)
+	#vgg.train(generator,False)
 
 	"""
 	test_y_one_hot = np.eye(test_y.shape[0])[test_y]

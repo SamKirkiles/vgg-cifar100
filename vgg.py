@@ -5,9 +5,12 @@ class VGG:
  
 	def __init__(self):
 
+		loader = Loader()
+
+
 		def build_model():
 
-			with tf.device("/gpu:0"):
+			with tf.device("/cpu:0"):
 
 				x = tf.placeholder(dtype=tf.float32,shape=(None,32,32,3),name="inputs")
 				y = tf.placeholder(dtype=tf.int32,shape=(None),name="labels")
