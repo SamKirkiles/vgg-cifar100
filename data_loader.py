@@ -49,7 +49,7 @@ class Loader():
 			filenames = self.filenames[1]
 			batch = 1000
 
-		dataset = tf.data.TFRecordDataset(filenames,buffer_size=10000)
+		dataset = tf.data.TFRecordDataset(filenames)
 
 		# map this datset to our unserializing function
 		dataset = dataset.map(self.parse_example)
