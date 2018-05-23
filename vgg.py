@@ -3,6 +3,7 @@ import numpy as np
 from data_loader import Loader
 
 
+
 class VGG:
  
 	def __init__(self):
@@ -80,6 +81,7 @@ class VGG:
 				scaled_logits = -tf.log(dense16)
 				output_distribution = tf.nn.softmax(scaled_logits)
 
+
 				softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
 				loss = tf.reduce_mean(softmax)
@@ -98,7 +100,7 @@ class VGG:
 		build_model()
 
 
-	def train(self,restore):
+	def train(self,restore=False):
 
 		saver = tf.train.Saver()
 
@@ -129,7 +131,7 @@ class VGG:
 						if counter%1000 == 0:
 							print("Periodically saving model...")
 							save_path = saver.save(sess, "./saves/model.ckpt")
-							
+
 			except KeyboardInterrupt:
 				print("Interupted... saving model.")
 			
