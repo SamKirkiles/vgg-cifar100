@@ -7,7 +7,7 @@ def main():
 	print("running main")
 
 	vgg = VGG()	
-	vgg.train(restore=True)
+	vgg.train(restore=False)
 
 
 
