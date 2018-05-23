@@ -55,7 +55,7 @@ class Loader():
 		dataset = dataset.repeat().shuffle(buffer_size=10000)
 		dataset = dataset.map(self.parse_example,num_parallel_calls=8)
 		dataset = dataset.batch(batch)
-		dataset = dataset.tf.contrib.data.prefetch_to_device("/device:GPU:0",buffer_size=100)
+		dataset = dataset.prefetch_to_device("/device:GPU:0",buffer_size=100)
 
 
 		iterator = dataset.make_one_shot_iterator()
