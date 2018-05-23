@@ -84,14 +84,14 @@ class VGG:
 
 
 				scaled_logits = -tf.log(dense16)
-				outputs = tf.argmax(tf.nn.softmax(scaled_logits),axis=0)
+				outputs = tf.argmax(tf.nn.softmax(scaled_logits),axis=1)
 
 
 				softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
 				loss = tf.reduce_mean(softmax)
 
-				optimize = tf.train.AdamOptimizer(0.1).minimize(loss)
+				optimize = tf.train.AdamOptimizer().minimize(loss)
 
 			self.loss = loss
 			self.x_placeholder = x
