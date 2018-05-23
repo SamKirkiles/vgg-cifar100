@@ -127,7 +127,7 @@ class VGG:
 		saver = tf.train.Saver()
 
 
-		with tf.Session(config=tf.ConfigProto(allow_soft_placement=True,log_device_placement=True) as sess:
+		with tf.Session(config=tf.ConfigProto(allow_soft_placement=True,log_device_placement=True)) as sess:
 			try:
 
 				run_id = np.random.randint(0,1e7)
