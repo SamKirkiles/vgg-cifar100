@@ -14,7 +14,7 @@ class VGG:
 
 		def build_model():
 
-			with tf.device("/device:GPU:0"):
+			with tf.device("/device:GPU:1"):
 				x_loaded,y_loaded = iterator.get_next()
 
 				x = tf.placeholder_with_default(x_loaded,(None,32,32,3),name="x_placeholder")
@@ -127,7 +127,7 @@ class VGG:
 		saver = tf.train.Saver()
 
 
-		with tf.Session(config=tf.ConfigProto(allow_soft_placement=True,log_device_placement=True)) as sess:
+		with tf.Session(config=tf.ConfigProto(allow_soft_placement=True,log_device_placement=False)) as sess:
 			try:
 
 				run_id = np.random.randint(0,1e7)
