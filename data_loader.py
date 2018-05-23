@@ -51,11 +51,15 @@ class Loader():
 
 		dataset = tf.data.TFRecordDataset(filenames)
 
-		# map this datset to our unserializing function
-		dataset = dataset.repeat().shuffle(buffer_size=1000)
-		dataset = dataset.map(self.parse_example,num_parallel_calls=8)
-		dataset = dataset.batch(batch)
-		dataset = dataset.prefetch(100)
+		dataset.apply(
+			tf.contrib.data.shuffle_and_repeat(10000)
+		)
+		dataset.apply(
+			tf.contrib.data.map_and_batch(self.parse_example,batch_size=batch,num_parallel_batches=1)
+		)
+		dataset.apply(
+			tf.contrib.data.prefetch_to_device("/device:GPU:0")
+		)
 
 		iterator = dataset.make_one_shot_iterator()
 
