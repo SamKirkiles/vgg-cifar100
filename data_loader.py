@@ -53,7 +53,7 @@ class Loader():
 
 		# map this datset to our unserializing function
 		dataset = dataset.map(self.parse_example)
-		dataset = dataset.shuffle(buffer_size=20000)
+		dataset = dataset.shuffle(buffer_size=2000)
 		dataset = dataset.batch(batch).repeat()
 		dataset = dataset.prefetch(batch*5)
 
