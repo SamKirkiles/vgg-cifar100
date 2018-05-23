@@ -117,7 +117,6 @@ class VGG:
 			self.x_placeholder = x
 			self.y_placeholder = y
 			self.training = training
-			self.outputs = outputs
 			self.accuracy = accuracy
 			self.optimize = optimize
 
