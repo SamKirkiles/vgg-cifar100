@@ -20,7 +20,7 @@ class VGG:
 				x = tf.placeholder_with_default(x_loaded,(None,32,32,3),name="x_placeholder")
 				y = tf.placeholder_with_default(y_loaded,(None),name="y_placeholder")
 
-				training = tf.placeholder_with_default(True,name="training_bool")
+				training = tf.placeholder_with_default(True,name="training_bool",shape=())
 
 				#Layer1 - 64 channels
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
