@@ -43,7 +43,7 @@ class Loader():
 	def get_dataset(self,train=True):
 
 		if train:
-			fileanmes = self.filenames[0]
+			filenames = self.filenames[0]
 			batch = self.batch_size
 		else:
 			filenames = self.filenames[1]
