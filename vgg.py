@@ -15,7 +15,10 @@ class VGG:
 		def build_model():
 
 			with tf.device("/device:GPU:0"):
-				x,y = iterator.get_next()
+				x_loaded,y_loaded = iterator.get_next()
+
+				x = tf.placeholder_with_default(x_loaded,(None,32,32,3),name="x_placeholder")
+				y = tf.placeholder_with_default(y_loaded,(None),name="y_placeholder")
 
 				#Layer1 - 64 channels
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
@@ -88,14 +91,14 @@ class VGG:
 
 				optimize = tf.train.AdamOptimizer().minimize(loss)
 
-
 			self.loss = loss
+			self.x_placeholder = x
+			self.y_placeholder = y
 			self.output_distribution = output_distribution
 			self.softmax = softmax
 			self.optimize = optimize
 
-			with tf.device("/cpu:0"):
-				tf.summary.scalar("Loss", loss)
+			tf.summary.scalar("Loss", loss)
 
 		build_model()
 
