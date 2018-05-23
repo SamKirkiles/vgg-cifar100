@@ -55,7 +55,7 @@ class Loader():
 		dataset = dataset.map(self.parse_example)
 		dataset = dataset.shuffle(buffer_size=100)
 		dataset = dataset.batch(batch).repeat()
-		dataset = dataset.prefetch(1)
+		dataset = dataset.prefetch(100)
 
 		iterator = dataset.make_one_shot_iterator()
 
