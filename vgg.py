@@ -143,11 +143,12 @@ class VGG:
 
 				train_loader = Loader()
 				val_x,val_y = sess.run(train_loader.get_dataset(train=False).get_next())
+				
+				merge = tf.summary.merge_all()
 
 				while True:
 
 						counter += 1
-						merge = tf.summary.merge_all()
 
 						_, summary = sess.run([self.optimize,merge],feed_dict={})
 
