@@ -99,10 +99,14 @@ class VGG:
 				dense16 = tf.layers.dense(inputs=bn_15, units=100,activation=None,kernel_initializer=tf.contrib.layers.xavier_initializer())
 
 
+				# Predict
 				scaled_logits = -tf.log(dense16)
-				outputs = tf.argmax(tf.nn.softmax(scaled_logits),axis=1)
+				prediction = tf.argmax(tf.nn.softmax(scaled_logits),axis=1)
 
+				equality = tf.equal(prediction, y)
+				accuracy = tf.reduce_mean(tf.cast(equality, tf.float32))
 
+				# Train
 				softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
 				loss = tf.reduce_mean(softmax)
@@ -114,7 +118,7 @@ class VGG:
 			self.y_placeholder = y
 			self.training = training
 			self.outputs = outputs
-			self.softmax = softmax
+			self.accuracy = accuracy
 			self.optimize = optimize
 
 			tf.summary.scalar("Loss", loss)
@@ -157,10 +161,9 @@ class VGG:
 						if counter%1000 == 0:
 
 							# Check validation accuracy
-							outputs = sess.run([self.outputs],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
-							accuracy = np.mean(outputs == val_y)
+							acc = sess.run([self.accuracy],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
-							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Accuracy',simple_value=accuracy)])
+							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
 
 							# Save model
