@@ -100,8 +100,7 @@ class VGG:
 
 
 				# Predict
-				scaled_logits = -tf.log(dense16)
-				prediction = tf.argmax(tf.nn.softmax(scaled_logits),axis=1)
+				prediction = tf.argmax(tf.nn.softmax(dense16),axis=1)
 
 				equality = tf.equal(prediction, y)
 				accuracy = tf.reduce_mean(tf.cast(equality, tf.float32))
