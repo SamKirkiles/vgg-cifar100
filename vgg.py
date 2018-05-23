@@ -20,6 +20,8 @@ class VGG:
 				x = tf.placeholder_with_default(x_loaded,(None,32,32,3),name="x_placeholder")
 				y = tf.placeholder_with_default(y_loaded,(None),name="y_placeholder")
 
+				training = tf.placeholder_with_default(True,name="training_bool")
+
 				#Layer1 - 64 channels
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
@@ -82,19 +84,20 @@ class VGG:
 
 
 				scaled_logits = -tf.log(dense16)
-				output_distribution = tf.nn.softmax(scaled_logits)
+				outputs = tf.argmax(tf.nn.softmax(scaled_logits),axis=0)
 
 
 				softmax = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y,logits=dense16,name="softmax")
 
 				loss = tf.reduce_mean(softmax)
 
-				optimize = tf.train.AdamOptimizer().minimize(loss)
+				optimize = tf.train.AdamOptimizer(0.1).minimize(loss)
 
 			self.loss = loss
 			self.x_placeholder = x
 			self.y_placeholder = y
-			self.output_distribution = output_distribution
+			self.training = training
+			self.outputs = outputs
 			self.softmax = softmax
 			self.optimize = optimize
 
@@ -122,6 +125,9 @@ class VGG:
 
 				counter = 0
 
+				train_loader = Loader()
+				val_x,val_y = train_loader.get_dataset(train=False).get_next()
+
 				while True:
 
 						counter += 1
@@ -132,6 +138,15 @@ class VGG:
 						train_writer.add_summary(summary,counter)
 
 						if counter%1000 == 0:
+
+							# Check validation accuracy
+							outputs = sess.run([self.outputs],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+							accuracy = np.mean(outputs == val_y)
+
+							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Accuracy',simple_value=accuracy)])
+							train_writer.add_summary(accuracy_summary,counter)
+
+							# Save model
 							print("Periodically saving model...")
 							save_path = saver.save(sess, "./saves/model.ckpt")
 
@@ -141,7 +156,7 @@ class VGG:
 			save_path = saver.save(sess, "./saves/model.ckpt")
 
 
-	def test(self,inputs,labels,restore):
+	def test(self,inputs,labels,restore=True):
 
 		with tf.Session() as sess:
 
