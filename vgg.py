@@ -23,64 +23,80 @@ class VGG:
 				training = tf.placeholder_with_default(True,name="training_bool",shape=())
 
 				#Layer1 - 64 channels
-				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_1 = tf.contrib.layers.batch_norm(conv1,activation_fn=tf.nn.relu,is_training=training)
 				# Layer2 - 64 channels
-				conv2 = tf.layers.conv2d(conv1, filters=64,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv2 = tf.layers.conv2d(bn_1, filters=64,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
-				pool2 = tf.layers.max_pooling2d(conv2, (2,2), (2,2), padding='SAME')
+
+				bn_2 = tf.contrib.layers.batch_norm(conv2,activation_fn=tf.nn.relu,is_training=training)
+
+				pool2 = tf.layers.max_pooling2d(bn_2, (2,2), (2,2), padding='SAME')
 
 				#Layer 3 - 128 channels
-				conv3 = tf.layers.conv2d(pool2, filters=128,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv3 = tf.layers.conv2d(pool2, filters=128,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
+
+				bn_3 = tf.contrib.layers.batch_norm(conv3,activation_fn=tf.nn.relu,is_training=training)
+
 				# Layer 4 - 128 channels
-				conv4 = tf.layers.conv2d(conv3, filters=128,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv4 = tf.layers.conv2d(bn_3, filters=128,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
-				pool4 = tf.layers.max_pooling2d(conv4, (2,2), (2,2), padding='SAME')
+				bn_4 = tf.contrib.layers.batch_norm(conv4,activation_fn=tf.nn.relu,is_training=training)
+				pool4 = tf.layers.max_pooling2d(bn_4, (2,2), (2,2), padding='SAME')
 
 				#Layer 5 - 256 channels
-				conv5 = tf.layers.conv2d(pool4, filters=256,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv5 = tf.layers.conv2d(pool4, filters=256,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_5 = tf.contrib.layers.batch_norm(conv5,activation_fn=tf.nn.relu,is_training=training)
 				# Layer 6 - 256 channels
-				conv6 = tf.layers.conv2d(conv5, filters=256,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv6 = tf.layers.conv2d(bn_5, filters=256,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_6 = tf.contrib.layers.batch_norm(conv6,activation_fn=tf.nn.relu,is_training=training)
 				# Layer 7 - 256 channels
-				conv7 = tf.layers.conv2d(conv6, filters=256,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv7 = tf.layers.conv2d(bn_6, filters=256,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
-
-				pool7 = tf.layers.max_pooling2d(conv7, (2,2), (2,2), padding='SAME')
+				bn_7 = tf.contrib.layers.batch_norm(conv7,activation_fn=tf.nn.relu,is_training=training)
+				pool7 = tf.layers.max_pooling2d(bn_7, (2,2), (2,2), padding='SAME')
 
 				# Layer 8 - 512 channels
-				conv8 = tf.layers.conv2d(pool7, filters=512,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv8 = tf.layers.conv2d(pool7, filters=512,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
-
+				bn_8 = tf.contrib.layers.batch_norm(conv8,activation_fn=tf.nn.relu,is_training=training)
 				# Layer 9 - 512 channels
-				conv9 = tf.layers.conv2d(conv8, filters=512,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv9 = tf.layers.conv2d(bn_8, filters=512,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_9 = tf.contrib.layers.batch_norm(conv9,activation_fn=tf.nn.relu,is_training=training)
 				# Layer 10 - 512 channels
-				conv10 = tf.layers.conv2d(conv9, filters=512,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv10 = tf.layers.conv2d(bn_9, filters=512,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
-
-				pool10 = tf.layers.max_pooling2d(conv10, (2,2), (2,2), padding='SAME')
+				bn_10 = tf.contrib.layers.batch_norm(conv10,activation_fn=tf.nn.relu,is_training=training)
+				pool10 = tf.layers.max_pooling2d(bn_10, (2,2), (2,2), padding='SAME')
 
 				# Layer 11 - 512 channels
-				conv11 = tf.layers.conv2d(pool10, filters=512,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv11 = tf.layers.conv2d(pool10, filters=512,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_11 = tf.contrib.layers.batch_norm(conv11,activation_fn=tf.nn.relu,is_training=training)
 				# Layer 12 - 512 channels
-				conv12 = tf.layers.conv2d(conv11, filters=512,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv12 = tf.layers.conv2d(bn_11, filters=512,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_12 = tf.contrib.layers.batch_norm(conv12,activation_fn=tf.nn.relu,is_training=training)
 				# Layer 13 - 512 channels
-				conv13 = tf.layers.conv2d(conv12, filters=512,kernel_size=(3,3),padding='SAME',activation=tf.nn.relu,
+				conv13 = tf.layers.conv2d(bn_12, filters=512,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_13 = tf.contrib.layers.batch_norm(conv13,activation_fn=tf.nn.relu,is_training=training)
 
-				pool13 = tf.layers.max_pooling2d(conv13, (2,2), (2,2), padding='SAME')
+				pool13 = tf.layers.max_pooling2d(bn_13, (2,2), (2,2), padding='SAME')
 
 
 				flattened = tf.contrib.layers.flatten(pool13)
 
-				dense14 = tf.layers.dense(inputs=flattened, units=4096,activation=tf.nn.relu,kernel_initializer=tf.contrib.layers.xavier_initializer())
-				dense15 = tf.layers.dense(inputs=dense14, units=4096,activation=tf.nn.relu,kernel_initializer=tf.contrib.layers.xavier_initializer())
-				dense16 = tf.layers.dense(inputs=dense15, units=100,activation=None,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				dense14 = tf.layers.dense(inputs=flattened, units=4096,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_14 = tf.contrib.layers.batch_norm(dense14,activation_fn=tf.nn.relu,is_training=training)
+				dense15 = tf.layers.dense(inputs=bn_14, units=4096,kernel_initializer=tf.contrib.layers.xavier_initializer())
+				bn_15 = tf.contrib.layers.batch_norm(dense15,activation_fn=tf.nn.relu,is_training=training)
+				dense16 = tf.layers.dense(inputs=bn_15, units=100,activation=None,kernel_initializer=tf.contrib.layers.xavier_initializer())
 
 
 				scaled_logits = -tf.log(dense16)
