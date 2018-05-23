@@ -49,11 +49,11 @@ class Loader():
 			filenames = self.filenames[1]
 			batch = 1000
 
-		dataset = tf.data.TFRecordDataset(filenames,buffer_size=2000)
+		dataset = tf.data.TFRecordDataset(filenames,buffer_size=10000)
 
 		# map this datset to our unserializing function
 		dataset = dataset.map(self.parse_example)
-		dataset = dataset.shuffle()
+		dataset = dataset.shuffle(buffer_size=2048)
 		dataset = dataset.batch(batch).repeat()
 
 		iterator = dataset.make_one_shot_iterator()
