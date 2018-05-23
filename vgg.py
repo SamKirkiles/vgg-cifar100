@@ -160,7 +160,7 @@ class VGG:
 						if counter%1000 == 0:
 
 							# Check validation accuracy
-							acc = sess.run([self.accuracy],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+							acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
 							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
