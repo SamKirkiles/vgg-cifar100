@@ -171,7 +171,7 @@ class VGG:
 
 							acc,outputs,prediction,final = sess.run([self.accuracy,self.outputs,self.prediction,self.final],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 							print(outputs[0])
-							print(self.softmax(final[0]))
+							print(self.softmax(final[0][:,None]))
 							print(prediction[0])
 							print(val_y[0])
 							print(final[0])
