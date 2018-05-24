@@ -124,6 +124,7 @@ class VGG:
 			self.optimize = optimize
 
 			tf.summary.scalar("Loss", loss)
+			tf.summary.scalar("TEST Accuracy", accuracy)
 
 		build_model()
 
