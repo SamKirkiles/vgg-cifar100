@@ -169,8 +169,8 @@ class VGG:
 
 							acc,outputs = sess.run([self.accuracy,self.outputs],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 							print(outputs)
-							
-							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc/10)])
+
+							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
 
 							# Save model
