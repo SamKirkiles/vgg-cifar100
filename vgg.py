@@ -118,7 +118,10 @@ class VGG:
 
 				loss = tf.reduce_mean(softmax)
 
-				step = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
+				update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS) 
+				
+				with tf.control_dependencies(update_ops):
+					step = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
 				
 
 
