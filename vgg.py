@@ -173,7 +173,7 @@ class VGG:
 
 							# Check validation accuracy on 10 batches
 
-							acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:True})
+							acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
 							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Validation Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
