@@ -138,7 +138,7 @@ class VGG:
 				name = "conv2d_" + str(i)
 
 				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name  + "/kernel")
-				activaiton = tf.get_collection(tf.GraphKeys.VARIABLES, name)
+				activation = tf.get_collection(tf.GraphKeys.VARIABLES, name)
 
 				tf.summary.histogram(name,kernel)
 				tf.summary.histogram(name,activation)
