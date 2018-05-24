@@ -27,12 +27,13 @@ class Loader():
 			train_x = train_x.astype(np.float32)
 			test_x = test_x.astype(np.float32)
 
-			train_x = (train_x - np.mean(train_x))/(np.max(train_x)-np.min(train_x))
-			test_x = (test_x - np.mean(test_x))/(np.max(test_x)-np.min(test_x))
+			n_mean = np.mean(train_x)
+			n_max = np.max(train_x)
+			n_min = np.min(train_x)
 
-			# Create validation
-			self.val_x = test_x[0:test_x.shape[0]/2]
-			self.val_y = test_y[0:test_y.shape[0]/2]
+
+			train_x = (train_x - n_mean)/(n_max-n_min)
+			test_x = (test_x - n_mean)/(n_max-n_min)
 			
 			self.create_tf_record(examples=train_x,labels=train_y,path="train.tfrecords")
 			self.create_tf_record(examples=test_x,labels=test_y,path="test.tfrecords")
