@@ -119,7 +119,7 @@ class VGG:
 				step = optimizer.minimize(loss)
 				gradients = optimizer.compute_gradients(loss)
 
-				for key, value in mydic.items() :
+				for key, value in gradients.items() :
 					tf.summary.histogram(key,value)
 
 
