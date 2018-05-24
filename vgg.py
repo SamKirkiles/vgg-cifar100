@@ -115,9 +115,11 @@ class VGG:
 
 				loss = tf.reduce_mean(softmax)
 
-				optimizer = tf.train.AdamOptimizer(learning_rate=0.0001)
+				step = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
 				gradients = optimizer.compute_gradients(loss)
-				step = optimizer.apply_gradients(gradients)
+
+				for key, value in mydic.items() :
+					tf.summary.histogram(key,value)
 
 
 
@@ -130,6 +132,7 @@ class VGG:
 			self.prediction = prediction
 			self.final = dense16
 			self.step = step
+			self.gradients = gradients
 
 			tf.summary.scalar("Loss", loss)
 			tf.summary.scalar("TEST Accuracy", accuracy)
