@@ -134,12 +134,6 @@ class VGG:
 			tf.summary.scalar("Loss", loss)
 			tf.summary.scalar("Train Accuracy", accuracy)
 
-			# Create histograms for weights
-			for i in range(1,14):
-				name = "conv2d_" + str(i)
-				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name  + "/kernel")
-				tf.summary.histogram(name,kernel)
-
 		build_model()
 
 
