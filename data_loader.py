@@ -45,10 +45,8 @@ class Loader():
 
 		if train:
 			filenames = self.filenames[0]
-			batch = self.batch_size
 		else:
 			filenames = self.filenames[1]
-			batch = 1000
 
 		dataset = tf.data.TFRecordDataset(filenames)
 
@@ -59,7 +57,7 @@ class Loader():
 			tf.contrib.data.map_and_batch(self.parse_example,batch_size=batch,num_parallel_batches=3)
 		)
 		dataset  = dataset.apply(
-			tf.contrib.data.prefetch_to_device("/device:GPU:0",100)
+			tf.contrib.data.prefetch_to_device("/device:GPU:0",100 )
 		)
 
 		iterator = dataset.make_one_shot_iterator()
