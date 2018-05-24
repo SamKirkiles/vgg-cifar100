@@ -134,7 +134,7 @@ class VGG:
 			for i in range(1,14):
 					
 				name = "conv2d_" + str(i) + "/kernel" 
-				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name)[0]
+				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name)
 
 				tf.summary.histogram(name,kernel)
 
