@@ -104,7 +104,7 @@ class VGG:
 				bn_15 = tf.contrib.layers.batch_norm(dense15,activation_fn=tf.nn.relu,is_training=training)
 				dense16 = tf.layers.dense(inputs=bn_15, units=100,activation=None,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				
-				tf.summary.scalar("dense16_mean",tf.reduce_mean(dense16)
+				tf.summary.scalar("dense16_mean",tf.reduce_mean(dense16))
 
 				# Predict
 				outputs = tf.nn.softmax(dense16)
