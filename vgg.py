@@ -104,7 +104,8 @@ class VGG:
 
 
 				# Predict
-				prediction = tf.argmax(tf.nn.softmax(dense16),axis=1)
+				outputs = tf.nn.softmax(dense16)
+				prediction = tf.argmax(outputs,axis=1)
 
 				equality = tf.equal(prediction, y)
 				accuracy = tf.reduce_mean(tf.cast(equality, tf.float32))
@@ -121,6 +122,7 @@ class VGG:
 			self.y_placeholder = y
 			self.training = training
 			self.accuracy = accuracy
+			self.outputs = outputs
 			self.optimize = optimize
 
 			tf.summary.scalar("Loss", loss)
@@ -148,7 +150,7 @@ class VGG:
 
 				counter = 0
 
-				train_loader = Loader()
+				train_loader = Loader(batch_size=256)
 				val_x,val_y = sess.run(train_loader.get_dataset(train=False).get_next())
 				
 				merge = tf.summary.merge_all()
@@ -164,9 +166,10 @@ class VGG:
 						if counter%1000 == 0:
 
 							# Check validation accuracy on 10 batches
-							
-							acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
+							acc,outputs = sess.run([self.accuracy,self.outputs],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+							print(outputs)
+							
 							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc/10)])
 							train_writer.add_summary(accuracy_summary,counter)
 
