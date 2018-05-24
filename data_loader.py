@@ -51,7 +51,7 @@ class Loader():
 		dataset = tf.data.TFRecordDataset(filenames)
 
 		dataset = dataset.apply(
-			tf.contrib.data.shuffle_and_repeat(10000)
+			tf.contrib.data.shuffle_and_repeat(10000,seed=0)
 		)
 		dataset = dataset.apply(
 			tf.contrib.data.map_and_batch(self.parse_example,batch_size=self.batch_size,num_parallel_batches=3)

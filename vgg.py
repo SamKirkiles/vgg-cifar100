@@ -32,7 +32,7 @@ class VGG:
 				bn_2 = tf.contrib.layers.batch_norm(conv2,activation_fn=tf.nn.relu,is_training=training)
 				
 				pool2 = tf.layers.max_pooling2d(bn_2, (2,2), (2,2), padding='SAME')
-				dropout_2 = tf.layers.dropout(pool2,training=training)
+				dropout_2 = tf.layers.dropout(pool2,training=training,keep_prob=0.8)
 				#Layer 3 - 128 channels
 				conv3 = tf.layers.conv2d(dropout_2, filters=128,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
@@ -44,7 +44,7 @@ class VGG:
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				bn_4 = tf.contrib.layers.batch_norm(conv4,activation_fn=tf.nn.relu,is_training=training)
 				pool4 = tf.layers.max_pooling2d(bn_4, (2,2), (2,2), padding='SAME')
-				dropout_4 = tf.layers.dropout(pool4,training=training)
+				dropout_4 = tf.layers.dropout(pool4,training=training,keep_prob=0.8)
 
 				#Layer 5 - 256 channels
 				conv5 = tf.layers.conv2d(dropout_4, filters=256,kernel_size=(3,3),padding='SAME',
@@ -59,7 +59,7 @@ class VGG:
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				bn_7 = tf.contrib.layers.batch_norm(conv7,activation_fn=tf.nn.relu,is_training=training)
 				pool7 = tf.layers.max_pooling2d(bn_7, (2,2), (2,2), padding='SAME')
-				dropout_7 = tf.layers.dropout(pool7,training=training)
+				dropout_7 = tf.layers.dropout(pool7,training=training,keep_prob=0.8)
 
 				# Layer 8 - 512 channels
 				conv8 = tf.layers.conv2d(dropout_7, filters=512,kernel_size=(3,3),padding='SAME',
@@ -74,7 +74,7 @@ class VGG:
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				bn_10 = tf.contrib.layers.batch_norm(conv10,activation_fn=tf.nn.relu,is_training=training)
 				pool10 = tf.layers.max_pooling2d(bn_10, (2,2), (2,2), padding='SAME')
-				dropout_7 = tf.layers.dropout(pool10,training=training)
+				dropout_7 = tf.layers.dropout(pool10,training=training,keep_prob=0.8)
 
 				# Layer 11 - 512 channels
 				conv11 = tf.layers.conv2d(dropout_7, filters=512,kernel_size=(3,3),padding='SAME',
@@ -91,13 +91,13 @@ class VGG:
 
 				pool13 = tf.layers.max_pooling2d(bn_13, (2,2), (2,2), padding='SAME')
 
-				dropout_13 = tf.layers.dropout(pool13,training=training)
+				dropout_13 = tf.layers.dropout(pool13,training=training,keep_prob=0.8)
 
 				flattened = tf.contrib.layers.flatten(dropout_13)
 
 				dense14 = tf.layers.dense(inputs=flattened, units=4096,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				bn_14 = tf.contrib.layers.batch_norm(dense14,activation_fn=tf.nn.relu,is_training=training)
-				dropout_14 = tf.layers.dropout(bn_14,training=training)
+				dropout_14 = tf.layers.dropout(bn_14,training=training,keep_prob=0.8)
 				dense15 = tf.layers.dense(inputs=dropout_14, units=4096,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				bn_15 = tf.contrib.layers.batch_norm(dense15,activation_fn=tf.nn.relu,is_training=training)
 				dense16 = tf.layers.dense(inputs=bn_15, units=100,activation=None,kernel_initializer=tf.contrib.layers.xavier_initializer())
@@ -149,7 +149,7 @@ class VGG:
 				counter = 0
 
 				train_loader = Loader()
-				val_x,val_y = sess.run(train_loader.get_dataset(train=False).get_next())
+				val_x,val_y = sess.run  (train_loader.get_dataset(train=False).get_next())
 				
 				merge = tf.summary.merge_all()
 
