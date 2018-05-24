@@ -115,7 +115,8 @@ class VGG:
 
 				loss = tf.reduce_mean(softmax)
 
-				step = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
+				optimizer = tf.train.AdamOptimizer(learning_rate=0.0001)
+				step = optimizer.minimize(loss)
 				gradients = optimizer.compute_gradients(loss)
 
 				for key, value in mydic.items() :
