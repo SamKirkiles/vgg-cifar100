@@ -115,7 +115,7 @@ class VGG:
 
 				loss = tf.reduce_mean(softmax)
 
-				optimize = tf.train.AdamOptimizer(learning_rate=0.00001).minimize(loss)
+				optimize = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
 
 			self.loss = loss
 			self.x_placeholder = x
@@ -129,6 +129,14 @@ class VGG:
 
 			tf.summary.scalar("Loss", loss)
 			tf.summary.scalar("TEST Accuracy", accuracy)
+			
+			# Create histograms for weights
+			for i in range(1,14):
+					
+				name = "conv2d_" + i + "/kernel" 
+				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name)[0]
+
+				tf.summary.histogram(name,kernel)
 
 		build_model()
 
@@ -168,18 +176,13 @@ class VGG:
 						if counter%1000 == 0:
 
 							# Check validation accuracy on 10 batches
-							print(val_x[0])
 
-							acc,outputs,prediction,final = sess.run([self.accuracy,self.outputs,self.prediction,self.final],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
-							print(outputs[0])
-							print(self.softmax(final[0][:,None]))
-							print(prediction[0])
-							print(val_y[0])
-							print(final[0])
+							acc = sess.run([self.accuracy],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
 							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
 
+						if counter%10000 == 0:
 							# Save model
 							print("Periodically saving model...")
 							save_path = saver.save(sess, "./saves/model.ckpt")
