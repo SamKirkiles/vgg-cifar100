@@ -168,6 +168,7 @@ class VGG:
 						if counter%1000 == 0:
 
 							# Check validation accuracy on 10 batches
+							print(val_x[0])
 
 							acc,outputs,prediction,final = sess.run([self.accuracy,self.outputs,self.prediction,self.final],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 							print(outputs[0])
