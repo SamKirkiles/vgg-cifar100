@@ -8,7 +8,5 @@ def main():
 	vgg = VGG()	
 	vgg.train(restore=False)
 
-
-
 if __name__ == "__main__":
 	main()
