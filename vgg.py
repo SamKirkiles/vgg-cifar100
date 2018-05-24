@@ -157,7 +157,7 @@ class VGG:
 				counter = 0
 
 				train_loader = Loader(batch_size=256)
-				val_x,val_y = sess.run(train_loader.get_dataset(train=True).get_next())
+				val_x,val_y = sess.run(train_loader.get_dataset(train=False).get_next())
 				
 				merge = tf.summary.merge_all()
 
