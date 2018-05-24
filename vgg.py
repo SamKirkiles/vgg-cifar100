@@ -115,7 +115,11 @@ class VGG:
 
 				loss = tf.reduce_mean(softmax)
 
-				optimize = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
+				optimizer = tf.train.AdamOptimizer(learning_rate=0.0001)
+				gradients = optimizer.compute_gradients(loss)
+				step = optimizer.apply_gradients(gradients)
+
+
 
 			self.loss = loss
 			self.x_placeholder = x
@@ -125,7 +129,7 @@ class VGG:
 			self.outputs = outputs
 			self.prediction = prediction
 			self.final = dense16
-			self.optimize = optimize
+			self.step = step
 
 			tf.summary.scalar("Loss", loss)
 			tf.summary.scalar("TEST Accuracy", accuracy)
@@ -169,7 +173,7 @@ class VGG:
 
 						counter += 1
 
-						_, summary = sess.run([self.optimize,merge],feed_dict={})
+						_, summary = sess.run([self.step,merge],feed_dict={})
 
 						train_writer.add_summary(summary,counter)
 
@@ -177,7 +181,7 @@ class VGG:
 
 							# Check validation accuracy on 10 batches
 
-							acc = sess.run([self.accuracy],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+							acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
 							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
