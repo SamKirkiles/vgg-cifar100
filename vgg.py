@@ -124,7 +124,7 @@ class VGG:
 			self.accuracy = accuracy
 			self.outputs = outputs
 			self.prediction = prediction
-
+			self.final = dense16
 			self.optimize = optimize
 
 			tf.summary.scalar("Loss", loss)
@@ -169,10 +169,11 @@ class VGG:
 
 							# Check validation accuracy on 10 batches
 
-							acc,outputs,prediction = sess.run([self.accuracy,self.outputs,self.prediction],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+							acc,outputs,prediction,final = sess.run([self.accuracy,self.outputs,self.prediction,self.final],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 							print(outputs[0])
 							print(prediction[0])
 							print(val_y[0])
+							print(final[0])
 
 							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
