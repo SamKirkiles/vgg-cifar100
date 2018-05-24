@@ -117,11 +117,6 @@ class VGG:
 
 				optimizer = tf.train.AdamOptimizer(learning_rate=0.0001)
 				step = optimizer.minimize(loss)
-				gradients = optimizer.compute_gradients(loss)
-
-				for key, value in gradients.items() :
-					tf.summary.histogram(key,value)
-
 
 
 			self.loss = loss
@@ -133,7 +128,6 @@ class VGG:
 			self.prediction = prediction
 			self.final = dense16
 			self.step = step
-			self.gradients = gradients
 
 			tf.summary.scalar("Loss", loss)
 			tf.summary.scalar("TEST Accuracy", accuracy)
@@ -141,10 +135,13 @@ class VGG:
 			# Create histograms for weights
 			for i in range(1,14):
 					
-				name = "conv2d_" + str(i) + "/kernel" 
-				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name)
+				name = "conv2d_" + str(i)
+
+				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name  + "/kernel")
+				activaiton = tf.get_collection(tf.GraphKeys.VARIABLES, name)
 
 				tf.summary.histogram(name,kernel)
+				tf.summary.histogram(name,activation)
 
 		build_model()
 
