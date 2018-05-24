@@ -133,11 +133,11 @@ class VGG:
 			# Create histograms for weights
 			for i in range(1,14):
 					
-				name = "conv2d_" + i + "/kernel" 
+				name = "conv2d_" + str(i) + "/kernel" 
 				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name)[0]
 
 				tf.summary.histogram(name,kernel)
-				
+
 		build_model()
 
 
