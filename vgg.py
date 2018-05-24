@@ -115,7 +115,7 @@ class VGG:
 
 				loss = tf.reduce_mean(softmax)
 
-				optimize = tf.train.AdamOptimizer().minimize(loss)
+				optimize = tf.train.AdamOptimizer(learning_rate=0.00001).minimize(loss)
 
 			self.loss = loss
 			self.x_placeholder = x
