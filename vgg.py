@@ -25,6 +25,8 @@ class VGG:
 				conv1 = tf.layers.conv2d(x, filters=64,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				bn_1 = tf.contrib.layers.batch_norm(conv1,activation_fn=tf.nn.relu,is_training=training)
+
+
 				# Layer2 - 64 channels
 				conv2 = tf.layers.conv2d(bn_1, filters=64,kernel_size=(3,3),padding='SAME',
 					use_bias=True,kernel_initializer=tf.contrib.layers.xavier_initializer())
@@ -101,7 +103,8 @@ class VGG:
 				dense15 = tf.layers.dense(inputs=dropout_14, units=4096,kernel_initializer=tf.contrib.layers.xavier_initializer())
 				bn_15 = tf.contrib.layers.batch_norm(dense15,activation_fn=tf.nn.relu,is_training=training)
 				dense16 = tf.layers.dense(inputs=bn_15, units=100,activation=None,kernel_initializer=tf.contrib.layers.xavier_initializer())
-
+				
+				tf.summary.scalar("dense16_mean",tf.reduce_mean(dense16)
 
 				# Predict
 				outputs = tf.nn.softmax(dense16)
@@ -115,8 +118,8 @@ class VGG:
 
 				loss = tf.reduce_mean(softmax)
 
-				optimizer = tf.train.AdamOptimizer(learning_rate=0.0001)
-				step = optimizer.minimize(loss)
+				step = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
+				
 
 
 			self.loss = loss
@@ -126,22 +129,16 @@ class VGG:
 			self.accuracy = accuracy
 			self.outputs = outputs
 			self.prediction = prediction
-			self.final = dense16
 			self.step = step
 
 			tf.summary.scalar("Loss", loss)
-			tf.summary.scalar("TEST Accuracy", accuracy)
+			tf.summary.scalar("Train Accuracy", accuracy)
 
 			# Create histograms for weights
 			for i in range(1,14):
-					
 				name = "conv2d_" + str(i)
-
 				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name  + "/kernel")
-				activation = tf.get_collection(tf.GraphKeys.VARIABLES, name)
-
 				tf.summary.histogram(name,kernel)
-				tf.summary.histogram(name,activation)
 
 		build_model()
 
@@ -184,7 +181,7 @@ class VGG:
 
 							acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
-							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc)])
+							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Validation Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
 
 						if counter%10000 == 0:
