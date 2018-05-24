@@ -129,7 +129,7 @@ class VGG:
 
 			tf.summary.scalar("Loss", loss)
 			tf.summary.scalar("TEST Accuracy", accuracy)
-			
+
 			# Create histograms for weights
 			for i in range(1,14):
 					
@@ -137,7 +137,7 @@ class VGG:
 				kernel = tf.get_collection(tf.GraphKeys.VARIABLES, name)[0]
 
 				tf.summary.histogram(name,kernel)
-
+				
 		build_model()
 
 
