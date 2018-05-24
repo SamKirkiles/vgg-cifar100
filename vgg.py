@@ -150,7 +150,6 @@ class VGG:
 
 				train_loader = Loader()
 				val_x,val_y = sess.run(train_loader.get_dataset(train=False).get_next())
-				val_y = np.zeros((64))
 				
 				merge = tf.summary.merge_all()
 
@@ -165,9 +164,8 @@ class VGG:
 						if counter%1000 == 0:
 
 							# Check validation accuracy on 10 batches
-							acc = 0 
-							for _ in range(10):
-								acc += sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+							
+							acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
 							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Test Accuracy',simple_value=acc/10)])
 							train_writer.add_summary(accuracy_summary,counter)
