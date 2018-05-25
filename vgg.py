@@ -192,7 +192,8 @@ class VGG:
 			save_path = saver.save(sess, "./saves/model.ckpt")
 
 
-	def test(self,inputs,labels,restore=True):
+	def test(self,restore=True):
+		saver = tf.train.Saver()
 
 		with tf.Session() as sess:
 
@@ -201,8 +202,11 @@ class VGG:
 			else:
 				sess.run(tf.global_variables_initializer())
 
+			train_loader = Loader(batch_size=256)
+			val_x,val_y = sess.run(train_loader.get_dataset(train=False).get_next())
 
-			output = sess.run([self.output_distribution], feed_dict={self.x_placeholder:inputs})
+			acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+			print(acc)
 
 
 

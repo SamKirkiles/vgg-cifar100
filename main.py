@@ -6,7 +6,8 @@ from data_loader import Loader
 def main():
 
 	vgg = VGG()	
-	vgg.train(restore=False)
+	vgg.train(restore=True)
+	#vgg.test(restore=True)
 
 if __name__ == "__main__":
 	main()

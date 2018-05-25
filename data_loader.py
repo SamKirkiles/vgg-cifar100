@@ -56,6 +56,7 @@ class Loader():
 		dataset = dataset.apply(
 			tf.contrib.data.map_and_batch(self.parse_example,batch_size=self.batch_size,num_parallel_batches=3)
 		)
+
 		dataset  = dataset.apply(
 			tf.contrib.data.prefetch_to_device("/device:GPU:0",100 )
 		)
