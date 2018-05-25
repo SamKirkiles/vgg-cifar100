@@ -2,6 +2,10 @@
 
 An VGG net (with batchnorm and dropout) trained on CIFAR-100. You can easily modify this code to train on CIFAR-10 by changing a line in the data loader class. Achieves around 64% accuracy without data augmentation. Record on this dataset is 75%. I plan to add data agumentation to get performance up to state of the art. 
 
+**Important - Please download the saves folder into the project directory. It contains the weights**
+
+https://www.dropbox.com/sh/gxwsc9u9m6f3pga/AADZdSpkOyLMk2ofeSJXrlEqa?dl=0
+
 Here's the architecture:
 
 ![Architecture](https://i.imgur.com/ibbfyos.png)
