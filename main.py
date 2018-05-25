@@ -6,6 +6,7 @@ from data_loader import Loader
 def main():
 
 	vgg = VGG()	
+	# SAVES MUST BE DOWNLOADED FOR RESTORE TO WORK
 	vgg.train(restore=True)
 	#vgg.test(restore=True)
 
