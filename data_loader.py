@@ -58,7 +58,7 @@ class Loader():
 		)
 
 		dataset  = dataset.apply(
-			tf.contrib.data.prefetch_to_device("/device:GPU:0",100 )
+				tf.contrib.data.prefetch_to_device("/device:GPU:0",100 )
 		)
 
 		iterator = dataset.make_one_shot_iterator()

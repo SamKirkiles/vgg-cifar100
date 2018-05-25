@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from data_loader import Loader
+import matplotlib.pyplot as plt
 
 
 
@@ -176,7 +177,7 @@ class VGG:
 
 							# Check validation accuracy on 10 batches
 
-							acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+							acc = sess.run([self.accuracy],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
 
 							accuracy_summary = tf.Summary(value=[tf.Summary.Value(tag='Validation Accuracy',simple_value=acc)])
 							train_writer.add_summary(accuracy_summary,counter)
@@ -202,11 +203,44 @@ class VGG:
 			else:
 				sess.run(tf.global_variables_initializer())
 
-			train_loader = Loader(batch_size=256)
+			train_loader = Loader(batch_size=64)
 			val_x,val_y = sess.run(train_loader.get_dataset(train=False).get_next())
 
-			acc = sess.run(self.accuracy,feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
-			print(acc)
+			with open('fine_label_names.txt', 'r') as fp:
+				lines = fp.readlines()
+				lines = [line.rstrip('\n') for line in lines]
+
+			idx = 61
+
+			acc,outputs = sess.run([self.accuracy,self.outputs],feed_dict={self.x_placeholder:val_x,self.y_placeholder:val_y,self.training:False})
+			
+			
+
+			
+
+			for img in [0,1,2,3,4,5,12,13,21,23,24,25,26,28,29,30,31,32,34,37,39,40,41,42,44,45,48,50,51,52,53,54,55,56,57,58,61,62]:
+
+				choices = np.flip(np.argsort(outputs[img], axis=-1, kind='quicksort', order=None),axis=0)[0:5]
+				names = [lines[x] for x in choices]
+				fig = plt.figure(1)
+				fig.add_subplot(121)
+				
+				image = ((val_x[img] * 255) + 121.936059453125)
+				image = image.astype(np.uint8)
+				plt.imshow(image)
+				fig.add_subplot(122)
+				y = outputs[img][choices]
+				x = [0,1,2,3,4]
+				plt.yticks(np.arange(5), names)
+				plt.barh(x,y)
+				plt.show()
+				print(img)
+
+	
+
+			# 0,3, 63, 61
+
+			
 
 
 
