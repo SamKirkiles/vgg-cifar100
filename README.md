@@ -4,7 +4,7 @@ An VGG net (with batchnorm and dropout) trained on CIFAR-100. You can easily mod
 
 Here's the architecture:
 
-[Architecture](https://i.imgur.com/ibbfyos.png)
+![Architecture](https://i.imgur.com/ibbfyos.png)
 
 ![Loss](https://i.imgur.com/8KuU0SG.png)
 ![Validation Accuracy](https://i.imgur.com/25lEbPK.png)
